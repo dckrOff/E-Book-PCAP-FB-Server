@@ -1,0 +1,269 @@
+.glossary-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.empty-list {
+  background-color: var(--light-bg);
+  padding: 30px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.terms-table-container {
+  overflow-x: auto;
+}
+
+.terms-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.terms-table th,
+.terms-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.terms-table th {
+  background-color: var(--secondary-bg);
+  font-weight: 600;
+}
+
+.terms-table tr:hover {
+  background-color: var(--light-bg);
+}
+
+.term-name {
+  font-weight: 500;
+}
+
+.term-definition {
+  max-width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.term-sections {
+  min-width: 120px;
+}
+
+.sections-count {
+  display: inline-block;
+  background-color: var(--light-bg);
+  color: var(--primary-color);
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.no-sections {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.term-actions {
+  display: flex;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .term-actions {
+    flex-direction: column;
+  }
+}
+
+.add-button {
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #3367d6;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.empty-state p {
+  margin-bottom: 20px;
+  color: #757575;
+  font-size: 16px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #757575;
+  font-size: 16px;
+}
+
+/* Табличный вид */
+.terms-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  display: flex;
+  background-color: #f5f5f5;
+  font-weight: bold;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.table-row {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.table-cell {
+  padding: 12px 15px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.table-cell.term {
+  flex: 0.5;
+  font-weight: 500;
+}
+
+.table-cell.description {
+  flex: 2;
+  color: #555;
+}
+
+.table-cell.actions {
+  flex: 0.7;
+  justify-content: flex-end;
+}
+
+/* Кнопки */
+.edit-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #388e3c;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.delete-confirm {
+  display: flex;
+  align-items: center;
+}
+
+.confirm-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.cancel-button {
+  background-color: #9e9e9e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+  .table-header, .table-row {
+    flex-direction: column;
+  }
+
+  .table-cell {
+    padding: 8px 10px;
+  }
+
+  .table-cell.term {
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .table-cell.actions {
+    justify-content: flex-start;
+    padding-top: 10px;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .list-header h1 {
+    margin-bottom: 10px;
+  }
+} 

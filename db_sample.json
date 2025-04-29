@@ -1,0 +1,361 @@
+{
+    "chapters": [
+      {
+        "id": "chapter1",
+        "title": "Введение в параллельные вычисления",
+        "order": 1,
+        "sections": [
+          {
+            "id": "section1_1",
+            "title": "Основные понятия",
+            "description": "Введение в основные понятия параллельных вычислений",
+            "order": 1,
+            "progress": 100,
+            "contentUrl": "content/chapter1/section1_1",
+            "chapterId": "chapter1"
+          },
+          {
+            "id": "section1_2",
+            "title": "История развития",
+            "description": "История развития параллельных вычислений",
+            "order": 2,
+            "progress": 80,
+            "contentUrl": "content/chapter1/section1_2",
+            "chapterId": "chapter1"
+          }
+        ]
+      },
+      {
+        "id": "chapter2",
+        "title": "Архитектура параллельных систем",
+        "order": 2,
+        "sections": [
+          {
+            "id": "section2_1",
+            "title": "Классификация параллельных систем",
+            "description": "Таксономия Флинна и другие классификации",
+            "order": 1,
+            "progress": 70,
+            "contentUrl": "content/chapter2/section2_1",
+            "chapterId": "chapter2"
+          }
+        ]
+      }
+    ],
+    
+    "glossary": [
+      {
+        "id": "term1",
+        "term": "Параллельные вычисления",
+        "definition": "Тип вычислений, при котором много вычислений или процессов выполняются одновременно.",
+        "category": "Основные понятия",
+        "relatedTerms": ["Параллелизм данных", "Многопоточность"],
+        "relatedSections": [
+          {
+            "id": "section1_1",
+            "title": "Основные понятия"
+          }
+        ]
+      },
+      {
+        "id": "term2",
+        "term": "Закон Амдала",
+        "definition": "Закон, описывающий теоретический предел ускорения программы при использовании нескольких процессоров.",
+        "category": "Теория",
+        "relatedSections": [
+          {
+            "id": "section1_2",
+            "title": "История развития"
+          }
+        ]
+      }
+    ],
+    
+    "quizzes": [
+      {
+        "id": "quiz1",
+        "title": "Основы параллельных вычислений",
+        "description": "Проверка знаний по основам параллельных вычислений",
+        "topic": "Параллельные вычисления",
+        "difficulty": "easy",
+        "timeLimit": 10,
+        "questions": [
+          {
+            "id": "q1",
+            "text": "Что из перечисленного является примером параллелизма данных?",
+            "questionType": "SINGLE_CHOICE",
+            "options": [
+              "Выполнение разных задач на разных ядрах процессора",
+              "Применение одной операции к разным элементам массива одновременно",
+              "Выполнение задач в порядке очереди",
+              "Распределение задач между разными компьютерами в сети"
+            ],
+            "correctOptions": [1],
+            "explanation": "Параллелизм данных - это когда одна операция применяется к разным элементам данных одновременно, например, SIMD-инструкции."
+          }
+        ]
+      }
+    ],
+    
+    "quiz_results": [
+      {
+        "id": "result1",
+        "quizId": "quiz1",
+        "userId": "user1",
+        "score": 66.7,
+        "timeSpentMillis": 180000,
+        "completedAt": "2023-05-15T14:30:00Z",
+        "answers": [
+          {
+            "questionId": "q1",
+            "selectedOptionIds": ["opt3"],
+            "isCorrect": true
+          },
+          {
+            "questionId": "q2",
+            "selectedOptionIds": ["opt2"],
+            "isCorrect": true
+          },
+          {
+            "questionId": "q3",
+            "selectedOptionIds": ["opt2", "opt4"],
+            "isCorrect": false
+          }
+        ]
+      }
+    ],
+    
+    "users": [
+      {
+        "id": "user1",
+        "username": "student1",
+        "email": "student1@example.com",
+        "role": "student",
+        "lastLogin": "2023-06-15T14:30:00Z",
+        "progress": {
+          "chapter1": {
+            "completed": true,
+            "sections": {
+              "section1_1": 100,
+              "section1_2": 80
+            }
+          },
+          "chapter2": {
+            "completed": false,
+            "sections": {
+              "section2_1": 60
+            }
+          }
+        }
+      }
+    ],
+    
+    "bookmarks": [
+      {
+        "id": "bookmark1",
+        "userId": "user1",
+        "sectionId": "1.2",
+        "sectionTitle": "1.2 Основные понятия параллельных вычислений",
+        "chapterId": "ch1",
+        "createdAt": "2023-05-14T10:20:00Z",
+        "note": "Важная информация о параллелизме задач"
+      }
+    ],
+    
+    "content": {
+      "chapter1": {
+        "section1_1": {
+          "id": "section1_1",
+          "title": "Основные понятия",
+          "content": [
+            {
+              "id": "item_1",
+              "type": "text",
+              "content": "Параллельные вычисления - это тип вычислений, при котором много вычислений или процессов выполняются одновременно. Крупные задачи часто можно разделить на более мелкие части, которые затем решаются параллельно.",
+              "isHighlighted": false
+            },
+            {
+              "id": "item_2",
+              "type": "image",
+              "url": "https://example.com/images/parallel_computing.jpg",
+              "caption": "Схема параллельных вычислений",
+              "description": "Визуальное представление параллельных вычислений с несколькими потоками выполнения"
+            },
+            {
+              "id": "item_3",
+              "type": "text",
+              "content": "Основные понятия параллельных вычислений включают:",
+              "isHighlighted": false
+            },
+            {
+              "id": "item_4",
+              "type": "code",
+              "content": "// Пример параллельного кода на OpenMP\n#pragma omp parallel\n{\n  int id = omp_get_thread_num();\n  printf(\"Hello from thread %d\\n\", id);\n}",
+              "language": "c",
+              "caption": "Пример параллельного кода на OpenMP"
+            },
+            {
+              "id": "item_5",
+              "type": "video",
+              "url": "https://www.youtube.com/watch?v=example_video_id",
+              "caption": "Введение в параллельные вычисления (видеолекция)"
+            },
+            {
+              "id": "item_6",
+              "type": "formula",
+              "content": "S(p) = \\frac{T(1)}{T(p)}",
+              "caption": "Формула ускорения при параллельном выполнении",
+              "isInline": false
+            },
+            {
+              "id": "item_7",
+              "type": "table",
+              "headers": ["Тип параллелизма", "Описание", "Пример"],
+              "rows": [
+                ["Параллелизм задач", "Различные задачи выполняются одновременно", "MapReduce"],
+                ["Параллелизм данных", "Одна операция применяется одновременно к разным элементам данных", "SIMD инструкции"],
+                ["Конвейерный параллелизм", "Задачи выполняются последовательно, но с перекрытием", "Конвейер CPU"]
+              ],
+              "caption": "Типы параллелизма"
+            },
+            {
+              "id": "item_8",
+              "type": "diagram",
+              "elements": [
+                {
+                  "id": "diag_elem_1",
+                  "type": "block",
+                  "text": "Начало",
+                  "x": 100,
+                  "y": 50,
+                  "width": 120,
+                  "height": 60,
+                  "connections": ["diag_elem_2"]
+                },
+                {
+                  "id": "diag_elem_2",
+                  "type": "block",
+                  "text": "Разделение задачи",
+                  "x": 100,
+                  "y": 150,
+                  "width": 120,
+                  "height": 60,
+                  "connections": ["diag_elem_3", "diag_elem_4", "diag_elem_5"]
+                },
+                {
+                  "id": "diag_elem_3",
+                  "type": "block",
+                  "text": "Подзадача 1",
+                  "x": 0,
+                  "y": 250,
+                  "width": 100,
+                  "height": 60,
+                  "connections": ["diag_elem_6"]
+                },
+                {
+                  "id": "diag_elem_4",
+                  "type": "block",
+                  "text": "Подзадача 2",
+                  "x": 110,
+                  "y": 250,
+                  "width": 100,
+                  "height": 60,
+                  "connections": ["diag_elem_6"]
+                },
+                {
+                  "id": "diag_elem_5",
+                  "type": "block",
+                  "text": "Подзадача 3",
+                  "x": 220,
+                  "y": 250,
+                  "width": 100,
+                  "height": 60,
+                  "connections": ["diag_elem_6"]
+                },
+                {
+                  "id": "diag_elem_6",
+                  "type": "block",
+                  "text": "Объединение результатов",
+                  "x": 100,
+                  "y": 350,
+                  "width": 120,
+                  "height": 60,
+                  "connections": ["diag_elem_7"]
+                },
+                {
+                  "id": "diag_elem_7",
+                  "type": "block",
+                  "text": "Конец",
+                  "x": 100,
+                  "y": 450,
+                  "width": 120,
+                  "height": 60,
+                  "connections": []
+                }
+              ],
+              "caption": "Блок-схема параллельного выполнения задачи"
+            }
+          ]
+        }
+      },
+      "ch2": {
+        "2.1": {
+          "id": "2.1",
+          "title": "Классификация параллельных архитектур",
+          "content": [
+            {
+              "type": "text",
+              "id": "2.1.1",
+              "content": "<p><strong>Классификация параллельных архитектур</strong></p><p>Существует несколько подходов к классификации параллельных вычислительных систем, из которых наиболее известной является таксономия Флинна.</p>",
+              "isHighlighted": false
+            },
+            {
+              "type": "text",
+              "id": "2.1.2",
+              "content": "<p><strong>Таксономия Флинна</strong> делит системы на четыре категории в зависимости от потоков команд и данных:</p><ul><li><strong>SISD (Single Instruction, Single Data)</strong> — Одиночный поток команд, одиночный поток данных. Классические последовательные машины.</li><li><strong>SIMD (Single Instruction, Multiple Data)</strong> — Одиночный поток команд, множественный поток данных. Векторные процессоры, GPU.</li><li><strong>MISD (Multiple Instruction, Single Data)</strong> — Множественный поток команд, одиночный поток данных. Редко используется на практике.</li><li><strong>MIMD (Multiple Instruction, Multiple Data)</strong> — Множественный поток команд, множественный поток данных. Многопроцессорные системы, кластеры.</li></ul>",
+              "isHighlighted": false
+            },
+            {
+              "type": "image",
+              "id": "2.1.3",
+              "url": "images/content/2.1/flynn_taxonomy.jpg",
+              "caption": "Таксономия Флинна",
+              "description": "Иллюстрация четырех классов параллельных архитектур по Флинну"
+            }
+          ]
+        },
+        "2.2": {
+          "id": "2.2",
+          "title": "Многоядерные процессоры",
+          "content": [
+            {
+              "type": "text",
+              "id": "2.2.1",
+              "content": "<p><strong>Многоядерные процессоры</strong></p><p>Многоядерные процессоры представляют собой интегральные схемы, содержащие два или более вычислительных ядра. Эти ядра могут работать параллельно, выполняя разные задачи или части одной задачи одновременно.</p>",
+              "isHighlighted": false
+            },
+            {
+              "type": "image",
+              "id": "2.2.2",
+              "url": "images/content/2.2/multicore_architecture.jpg",
+              "caption": "Структура современного многоядерного процессора",
+              "description": "Схема, показывающая организацию ядер, кэшей и других компонентов многоядерного процессора"
+            },
+            {
+              "type": "text",
+              "id": "2.2.3",
+              "content": "<p><strong>Основные особенности многоядерных процессоров:</strong></p><ul><li><strong>Интеграция нескольких ядер</strong> на одном кристалле</li><li><strong>Разделяемая память</strong> и иерархия кэшей</li><li><strong>Внутренние коммуникационные каналы</strong> между ядрами</li><li><strong>Различные уровни параллелизма</strong> (ILP, TLP, DLP)</li><li><strong>Управление энергопотреблением</strong> отдельных ядер</li></ul>",
+              "isHighlighted": false
+            },
+            {
+              "type": "code",
+              "id": "2.2.4",
+              "content": "// Пример многопоточного кода для многоядерного процессора\n#include <thread>\n\nvoid processPart(int* data, int start, int end) {\n    for (int i = start; i < end; i++) {\n        data[i] = process(data[i]);\n    }\n}\n\nint main() {\n    int data[1000];\n    // Инициализация данных\n    \n    // Создаем 4 потока для обработки разных частей массива\n    std::thread t1(processPart, data, 0, 250);\n    std::thread t2(processPart, data, 250, 500);\n    std::thread t3(processPart, data, 500, 750);\n    std::thread t4(processPart, data, 750, 1000);\n    \n    // Ждем завершения всех потоков\n    t1.join();\n    t2.join();\n    t3.join();\n    t4.join();\n    \n    // Дальнейшая обработка результатов\n    return 0;\n}",
+              "language": "cpp",
+              "caption": "Пример многопоточного кода для многоядерного процессора"
+            }
+          ]
+        }
+      }
+    }
+  }
