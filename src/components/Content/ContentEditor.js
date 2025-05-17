@@ -7,13 +7,13 @@ import './ContentEditor.css';
 const ContentEditor = () => {
   const { chapterId, sectionId } = useParams();
   const navigate = useNavigate();
-  
+
   const [content, setContent] = useState({
     id: sectionId,
     title: '',
     content: []
   });
-  
+
   const [section, setSection] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -25,17 +25,33 @@ const ContentEditor = () => {
       try {
         const sectionRef = doc(db, `chapters/${chapterId}/sections`, sectionId);
         const sectionDoc = await getDoc(sectionRef);
-        
+
         if (sectionDoc.exists()) {
           setSection(sectionDoc.data());
-          
+
           // Пытаемся получить контент из Firestore
           try {
             const contentRef = doc(db, 'content', chapterId, 'sections', sectionId);
             const contentDoc = await getDoc(contentRef);
-            
+
             if (contentDoc.exists()) {
-              setContent(contentDoc.data());
+              const rawContent = contentDoc.data();
+
+              const normalizedContent = {
+                ...rawContent,
+                content: rawContent.content.map(item => {
+                  if (item.type === 'table' && Array.isArray(item.rows) && item.rows.length > 0 && item.rows[0].cells) {
+                    // Преобразуем массив объектов в массив массивов
+                    return {
+                      ...item,
+                      rows: item.rows.map(rowObj => rowObj.cells)
+                    };
+                  }
+                  return item;
+                })
+              };
+
+              setContent(normalizedContent);
             } else {
               // Если контента еще нет, создаем базовую структуру
               setContent({
@@ -56,7 +72,7 @@ const ContentEditor = () => {
         } else {
           setError('Раздел не найден');
         }
-        
+
         setLoading(false);
       } catch (error) {
         console.error('Ошибка при загрузке данных:', error);
@@ -64,7 +80,7 @@ const ContentEditor = () => {
         setLoading(false);
       }
     };
-    
+
     fetchSection();
   }, [chapterId, sectionId]);
 
@@ -81,7 +97,7 @@ const ContentEditor = () => {
       id: `item_${Date.now()}`,
       type: type
     };
-    
+
     // Добавляем специфичные поля в зависимости от типа контента
     switch (type) {
       case 'text':
@@ -119,7 +135,7 @@ const ContentEditor = () => {
       default:
         break;
     }
-    
+
     setContent({
       ...content,
       content: [...content.content, newItem]
@@ -132,7 +148,7 @@ const ContentEditor = () => {
       ...updatedContent[index],
       [field]: value
     };
-    
+
     setContent({
       ...content,
       content: updatedContent
@@ -142,7 +158,7 @@ const ContentEditor = () => {
   const deleteContentItem = (index) => {
     const updatedContent = [...content.content];
     updatedContent.splice(index, 1);
-    
+
     setContent({
       ...content,
       content: updatedContent
@@ -151,18 +167,18 @@ const ContentEditor = () => {
 
   const moveContentItem = (index, direction) => {
     if (
-      (direction === 'up' && index === 0) || 
+      (direction === 'up' && index === 0) ||
       (direction === 'down' && index === content.content.length - 1)
     ) {
       return;
     }
-    
+
     const newIndex = direction === 'up' ? index - 1 : index + 1;
     const updatedContent = [...content.content];
     const temp = updatedContent[index];
     updatedContent[index] = updatedContent[newIndex];
     updatedContent[newIndex] = temp;
-    
+
     setContent({
       ...content,
       content: updatedContent
@@ -171,28 +187,42 @@ const ContentEditor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       setSaving(true);
       setError(null);
       setSuccess(null);
-      
+
       // Создаем пакетное обновление
       const batch = writeBatch(db);
-      
+
       // Убедимся, что существует коллекция для контента главы
       const chapterContentRef = doc(db, 'content', chapterId);
-      
+
       // Создаем/обновляем документ в Firestore для контента раздела
       const contentRef = doc(db, 'content', chapterId, 'sections', sectionId);
-      
+
       // Добавляем в пакет операции
       batch.set(chapterContentRef, { hasContent: true }, { merge: true });
-      batch.set(contentRef, content);
-      
+
+      const transformedContent = {
+        ...content,
+        content: content.content.map(item => {
+          if (item.type === 'table') {
+            return {
+              ...item,
+              rows: item.rows.map(row => ({ cells: row }))
+            };
+          }
+          return item;
+        })
+      };
+
+      batch.set(contentRef, transformedContent);
+
       // Выполняем пакетное обновление
       await batch.commit();
-      
+
       setSuccess('Контент успешно сохранен');
       setSaving(false);
     } catch (error) {
@@ -210,17 +240,17 @@ const ContentEditor = () => {
     <div className="content-editor">
       <div className="editor-header">
         <h1>Редактор контента: {section?.title}</h1>
-        <button 
+        <button
           className="btn btn-secondary"
           onClick={() => navigate(`/sections?chapterId=${chapterId}`)}
         >
           Назад к разделам
         </button>
       </div>
-      
+
       {error && <div className="alert alert-error">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="title">Заголовок раздела</label>
@@ -233,10 +263,10 @@ const ContentEditor = () => {
             className="form-control"
           />
         </div>
-        
+
         <div className="content-items">
           <h2>Содержимое раздела</h2>
-          
+
           {content.content.length === 0 ? (
             <div className="empty-content">
               <p>Добавьте элементы контента, используя кнопки ниже</p>
@@ -247,24 +277,24 @@ const ContentEditor = () => {
                 <div className="content-item-header">
                   <h3>{index + 1}. {getContentTypeLabel(item.type)}</h3>
                   <div className="content-item-actions">
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => moveContentItem(index, 'up')}
                       disabled={index === 0}
                     >
                       ↑
                     </button>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => moveContentItem(index, 'down')}
                       disabled={index === content.content.length - 1}
                     >
                       ↓
                     </button>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="btn btn-danger btn-sm"
                       onClick={() => deleteContentItem(index)}
                     >
@@ -272,12 +302,12 @@ const ContentEditor = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 {renderContentItemEditor(item, index)}
               </div>
             ))
           )}
-          
+
           <div className="add-content-actions">
             <h3>Добавить контент</h3>
             <div className="add-content-buttons">
@@ -305,11 +335,11 @@ const ContentEditor = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="form-actions">
-          <button 
-            type="submit" 
-            className="btn btn-primary" 
+          <button
+            type="submit"
+            className="btn btn-primary"
             disabled={saving}
           >
             {saving ? 'Сохранение...' : 'Сохранить'}
@@ -368,7 +398,7 @@ const ContentEditor = () => {
             </div>
           </div>
         );
-      
+
       case 'code':
         return (
           <div className="code-editor">
@@ -420,7 +450,7 @@ const ContentEditor = () => {
             </div>
           </div>
         );
-      
+
       case 'formula':
         return (
           <div className="formula-editor">
@@ -458,7 +488,7 @@ const ContentEditor = () => {
             </div>
           </div>
         );
-      
+
       case 'table':
         return (
           <div className="table-editor">
@@ -484,23 +514,23 @@ const ContentEditor = () => {
                         if (item.headers.length > 1) {
                           const newHeaders = [...item.headers];
                           newHeaders.splice(headerIndex, 1);
-                          
+
                           // Удаляем соответствующий столбец из всех строк
                           const newRows = item.rows.map(row => {
                             const newRow = [...row];
                             newRow.splice(headerIndex, 1);
                             return newRow;
                           });
-                          
+
                           const updatedItem = {
                             ...item,
                             headers: newHeaders,
                             rows: newRows
                           };
-                          
+
                           const updatedContent = [...content.content];
                           updatedContent[index] = updatedItem;
-                          
+
                           setContent({
                             ...content,
                             content: updatedContent
@@ -518,19 +548,19 @@ const ContentEditor = () => {
                   className="btn btn-primary btn-sm"
                   onClick={() => {
                     const newHeaders = [...item.headers, `Заголовок ${item.headers.length + 1}`];
-                    
+
                     // Добавляем пустую ячейку во все строки
                     const newRows = item.rows.map(row => [...row, '']);
-                    
+
                     const updatedItem = {
                       ...item,
                       headers: newHeaders,
                       rows: newRows
                     };
-                    
+
                     const updatedContent = [...content.content];
                     updatedContent[index] = updatedItem;
-                    
+
                     setContent({
                       ...content,
                       content: updatedContent
@@ -541,7 +571,7 @@ const ContentEditor = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="form-group">
               <label>Строки таблицы</label>
               <div className="rows-container">
@@ -592,7 +622,7 @@ const ContentEditor = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="form-group">
               <label>Подпись</label>
               <input
@@ -810,10 +840,10 @@ const ContentEditor = () => {
                         type="text"
                         value={element.connections.join(',')}
                         onChange={(e) => {
-                          const connectionsArray = e.target.value ? 
-                            e.target.value.split(',').map(conn => conn.trim()) : 
+                          const connectionsArray = e.target.value ?
+                            e.target.value.split(',').map(conn => conn.trim()) :
                             [];
-                          
+
                           const newElements = [...item.elements];
                           newElements[elementIndex] = {
                             ...newElements[elementIndex],
@@ -840,7 +870,7 @@ const ContentEditor = () => {
                       height: 50,
                       connections: []
                     };
-                    
+
                     const newElements = [...item.elements, newElement];
                     updateContentItem(index, 'elements', newElements);
                   }}
